@@ -1,13 +1,13 @@
-using APICounty.ActionClass.Country;
-using APICounty.ActionClass.HelperClass.DTO;
-using APICounty.Interface;
-using APICounty.Models;
+using API_CountryPlayers.ActionClass.Country;
+using API_CountryPlayers.ActionClass.HelperClass.DTO;
+using API_CountryPlayers.Interface;
+using API_CountryPlayers.Models;
 
-namespace APICounty.ActionClass
+namespace API_CountryPlayers.ActionClass
 {
     public class CountryClass : ICountry
     {
-        private DbConnection dbConnection
+        private DbConnection dbConnection;
 
         public List<string> AddCountry(CountyCreate country)
         {
@@ -15,7 +15,7 @@ namespace APICounty.ActionClass
             {
                 Country createCountry = new Country();
                 {
-                    CountryName = country.Name
+                    CountryName = country.Name;
                 };
                 dbConnection.Country.Add(createCountry);
                 dbConnection.SaveChanges();

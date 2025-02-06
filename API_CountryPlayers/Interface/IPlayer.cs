@@ -1,4 +1,4 @@
-namespace APICounty.Interface
+namespace API_CountryPlayers.Interface
 {
     public interface IPlayer
     {

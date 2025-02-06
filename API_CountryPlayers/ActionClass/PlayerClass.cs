@@ -1,15 +1,15 @@
-using APICounty.ActionClass.Player;
-using APICounty.ActionClass.HelperClass.DTO;
-using APICounty.Interface;
-using APICounty.Models;
+using API_CountryPlayers.ActionClass.HelperClass.DTO;
+using API_CountryPlayers.Interface;
+using API_CountryPlayers.Models;
+using API_CountryPlayers.ActionClass.Player;
 
-namespace APICounty.ActionClass
+namespace API_CountryPlayers.ActionClass
 {
     public class PlayerClass : IPlayer
     {
-        private DbConnection dbConnection
+        private DbConnection dbConnection;
 
-
+        
 
         public List<string> AddPlayer(PlayerCreate player)
         {
@@ -41,7 +41,6 @@ namespace APICounty.ActionClass
                 {
                     Results.NotFound(new List<string> { "Пользователь не найден" });
                 }
-                if(Player)
                 dbConnection.players.Remove(player);
                 dbConnection.SaveChanges();
 
@@ -60,12 +59,12 @@ namespace APICounty.ActionClass
 try
             {
                 var player = dbConnection.Players.Select(
-                    x => new PersonDTO()
+                    x => new PlayerDTO()
                     {
                         Name = x.Name, Login = x.Login, Id = x.Id, Age = x.Age, CountryId = x.CountryId,
                     }).ToList();
 
-                return (List<PersonDTO>)player;
+                return (List<PlayerDTO>)player;
             }
             catch
             {

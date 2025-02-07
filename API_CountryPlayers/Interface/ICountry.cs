@@ -1,13 +1,16 @@
+using API_CountryPlayers.ActionClass.CountryActions;
+using API_CountryPlayers.ActionClass.DTO;
+
 namespace API_CountryPlayers.Interface
 {
     public interface ICountry
     {
         public List<CountryDTO> GetAllCountries();
 
-        public List<CountryDTO> GetCountryById(long countryId);
+        public List<CountryDTO> GetCountryById(long Id);
 
-        public string AddCountry(PlayerCreate country);
+        public List<string> AddCountry(CountryCreate country);
 
-        public List<string> DeleteCountry(long countryId);
+        public List<string> DeleteCountry(long Id);
     }
 }

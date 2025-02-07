@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\DbConnection.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.1">
       <PrivateAssets>all</PrivateAssets>
@@ -25,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Models\DbConnection.cs" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

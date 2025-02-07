@@ -1,47 +1,49 @@
-using API_CountryPlayers.ActionClass.HelperClass.DTO;
+using API_CountryPlayers.ActionClass.DTO;
 using API_CountryPlayers.Interface;
 using API_CountryPlayers.Models;
-using API_CountryPlayers.ActionClass.Player;
+using API_CountryPlayers.ActionClass.PlayersActions;
 
 namespace API_CountryPlayers.ActionClass
 {
     public class PlayerClass : IPlayer
     {
-        private DbConnection dbConnection;
-
-        
-
+        private readonly PlayersContext dbConnection;
+        public PlayerClass(PlayersContext context) => dbConnection = context;
         public List<string> AddPlayer(PlayerCreate player)
         {
             try 
             {
-                Player createPlayer = new Player();
+                Player createPlayer = new Player()
                 {   
                     Name = player.Name,
                     Login = player.Login,
-                    Age = player.Age,
-                    Password = player.Password
+                    Password = player.Password,
+                    Age = player.Age
                 };
 
-                dbConnection.Player.Add(createPlayer);
+                dbConnection.Players.Add(createPlayer);
                 dbConnection.SaveChanges();
 
                 long playerId = createPlayer.Id;
                 Results.Created();
-
                 return [$"Игрок успешно создан ID - {playerId}"];
             }
+            catch (Exception ex)
+            {
+                Results.BadRequest(new List<string> { "Ошибка в выполнении запроса" });
+                throw;
+            }
         }
-        public List<string> DeletePlayer(int playerId)
+        public List<string> DeletePlayer(long Id)
         {
             try
             {
-                var player = dbConnection.Players.Find(playerId);
+                var player = dbConnection.Players.Find(Id);
                 if (player == null) 
                 {
                     Results.NotFound(new List<string> { "Пользователь не найден" });
                 }
-                dbConnection.players.Remove(player);
+                dbConnection.Players.Remove(player);
                 dbConnection.SaveChanges();
 
                 Results.NoContent();
@@ -54,17 +56,17 @@ namespace API_CountryPlayers.ActionClass
                 throw;
             }
         }
-        public List<PlayerDTO> GetPlayer(string player)
+        public List<PlayerDTO> GetAllPlayers()
         {
 try
             {
-                var player = dbConnection.Players.Select(
+                var players = dbConnection.Players.Select(
                     x => new PlayerDTO()
                     {
                         Name = x.Name, Login = x.Login, Id = x.Id, Age = x.Age, CountryId = x.CountryId,
                     }).ToList();
 
-                return (List<PlayerDTO>)player;
+                return (List<PlayerDTO>)players;
             }
             catch
             {
@@ -72,11 +74,11 @@ try
                 throw;
             }
         }
-        public List<PlayerDTO> GetPlayerById(string player)
+        public List<PlayerDTO> GetPlayerById(long Id)
         {
             try
             {
-                var player = _context.Persons.Where(u => u.Name == name).Select(x => new PersonDTO
+                var player = dbConnection.Players.Where(u => u.Id == Id).Select(x => new PlayerDTO
                 {
                     Name = x.Name,
                     Login = x.Login,
@@ -85,7 +87,7 @@ try
                     CountryId = x.CountryId,
                 }
                 ).ToList();
-                return (List<PersonDTO>)player;
+                return (List<PlayerDTO>)player;
             }
             catch
             {
@@ -93,7 +95,7 @@ try
                 throw;
             }
         }
-        public List<string> UpdatePlayer(string Player)
+        public List<string> UpdatePlayer(long Id,PlayerUpdate player)
         {
             throw new NotImplementedException();
         }

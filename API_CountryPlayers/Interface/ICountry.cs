@@ -7,7 +7,7 @@ namespace API_CountryPlayers.Interface
     {
         public List<CountryDTO> GetAllCountries();
 
-        public List<CountryDTO> GetCountryById(long Id);
+        public List<CountryDTO> GetCountryById(long id);
 
         public List<string> AddCountry(CountryCreate country);
 

@@ -12,6 +12,7 @@ public class PlayerCreate
     public string Password {  get; set; }
     [Required]
     public int Age { get; set; }
-    //[Required] long CountryId {get; set;}
+    [Required] 
+    public long CountryId { get; set; }
 
 }

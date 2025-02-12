@@ -5,6 +5,7 @@ namespace API_CountryPlayers.ActionClass.CountryActions
     public class CountryCreate
     {
         [Required]
-        public string Name { get; set; }
+        public string CountryName { get; set; }
+        public int PlayersCount { get; set; }
     }
 }

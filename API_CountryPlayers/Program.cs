@@ -1,3 +1,5 @@
+using API_CountryPlayers.ActionClass;
+using API_CountryPlayers.Interface;
 using API_CountryPlayers.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<ICountry, CountryClass>();
 
 var connectionString = builder.Configuration.GetConnectionString("ConnectDb");
 builder.Services.AddDbContext<PlayersContext>(options=>options.UseSqlServer(connectionString));

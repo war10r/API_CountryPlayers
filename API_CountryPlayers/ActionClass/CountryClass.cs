@@ -18,7 +18,7 @@ namespace API_CountryPlayers.ActionClass
             {
                 Country createCountry = new Country()
                 {
-                    CountryName = country.Name
+                    CountryName = country.CountryName
                 };
                 dbConnection.Countries.Add(createCountry);
                 dbConnection.SaveChanges();
@@ -64,7 +64,7 @@ namespace API_CountryPlayers.ActionClass
         {
             try
             {
-                var country = dbConnection.Select(x => new CountryDTO()
+                var country = dbConnection.Countries.Select(x => new CountryDTO()
                 {
                     Id = x.Id,
                     CountryName = x.CountryName,
@@ -81,13 +81,20 @@ namespace API_CountryPlayers.ActionClass
             }
         }
 
-        public List<CountryDTO> GetCountryById(long Id)
+        public List<CountryDTO> GetCountryById(long id)
         {
-            var country = dbConnection.Countries.Select(x => new CountryDTO()
+            try
             {
-                CountryName = x.CountryName,
-            }).Where(item => item.Id == Id).ToList();
-            return (List<CountryDTO>)country;
+                var country = dbConnection.Countries.Select(x => new CountryDTO()
+                {
+                    Id = x.Id,
+                    CountryName = x.CountryName,
+                }).
+                Where(item => item.Id == id).
+                ToList();
+                return (List<CountryDTO>)country;
+            }
+            catch(Exception ex) { Results.BadRequest(); throw; }
         }
     }
 }

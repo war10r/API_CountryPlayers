@@ -11,6 +11,11 @@ namespace API_CountryPlayers.ActionClass
         public PlayerClass(PlayersContext context) => dbConnection = context;
         public List<string> AddPlayer(PlayerCreate player)
         {
+            if (player.Login.Any())
+            {
+                Results.BadRequest(new List<string> { "Пользователь с таким логином уже существует" });
+            }
+
             try 
             {
                 Player createPlayer = new Player()
@@ -18,13 +23,15 @@ namespace API_CountryPlayers.ActionClass
                     Name = player.Name,
                     Login = player.Login,
                     Password = player.Password,
-                    Age = player.Age
+                    Age = player.Age,
+                    CountryId = player.CountryId
                 };
 
                 dbConnection.Players.Add(createPlayer);
                 dbConnection.SaveChanges();
 
                 long playerId = createPlayer.Id;
+
                 Results.Created();
                 return [$"Игрок успешно создан ID - {playerId}"];
             }
@@ -87,6 +94,8 @@ try
                     CountryId = x.CountryId,
                 }
                 ).ToList();
+                dbConnection.Add(player);
+                dbConnection.SaveChanges();
                 return (List<PlayerDTO>)player;
             }
             catch
@@ -95,9 +104,35 @@ try
                 throw;
             }
         }
-        public List<string> UpdatePlayer(long Id,PlayerUpdate player)
+        public List<string> UpdatePlayer(string login,PlayerUpdate playerUpdate)
         {
-            throw new NotImplementedException();
+            try 
+            {
+                var player = dbConnection.Players.FirstOrDefault(x => x.Login == login);
+                if (player == null)
+                {
+                    Results.NoContent();
+                    return [];
+                }
+
+                player.Name = playerUpdate.Name;
+                player.Login = playerUpdate.Login;
+                player.Password = playerUpdate.Password;
+                player.Age = playerUpdate.Age;
+                
+                dbConnection.Players.Update(player);
+                dbConnection.SaveChanges();
+
+                Results.Ok();
+                return ["Данные игрока успешно обновлены"];
+
+
+            }
+            catch
+            {
+                Results.BadRequest();
+                throw;
+            }
         }
     }
 }

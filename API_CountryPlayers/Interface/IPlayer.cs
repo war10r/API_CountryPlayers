@@ -11,7 +11,7 @@ namespace API_CountryPlayers.Interface
 
         public List<string> AddPlayer(PlayerCreate player);
 
-        public List<string> UpdatePlayer(long Id, PlayerUpdate player);
+        public List<string> UpdatePlayer(string login, PlayerUpdate playerUpdate);
 
         public List<string> DeletePlayer(long Id);
     }

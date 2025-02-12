@@ -5,8 +5,8 @@ namespace API_CountryPlayers.ActionClass.DTO
     public class CountryDTO
     {
         [Key]
-        long Id { get; set; }
-        string CountryName { get; set; } = null!;
-        int PlayerCount { get; set; }
+        public long Id { get; set; }
+        public string CountryName { get; set; } = null!;
+        public long PlayerCount { get; set; }
     }
 }

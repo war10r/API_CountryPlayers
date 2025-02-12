@@ -1,3 +1,5 @@
+using System.Data.Common;
+using System.Reflection.Metadata.Ecma335;
 using API_CountryPlayers.ActionClass.CountryActions;
 using API_CountryPlayers.ActionClass.DTO;
 using API_CountryPlayers.Interface;
@@ -7,7 +9,7 @@ namespace API_CountryPlayers.ActionClass
 {
     public class CountryClass : ICountry
     {
-        private readonly PlayersContext dbConnection;
+        private PlayersContext dbConnection;
         public CountryClass(PlayersContext context) => dbConnection = context;
 
         public List<string> AddCountry(CountryCreate country)
@@ -43,30 +45,49 @@ namespace API_CountryPlayers.ActionClass
                 {
                     Results.NotFound(new List<string> { "Страна не найдена" });
                 }
-                if(playerCount == 0)
+                if(country.PlayerCount == 0)
                 {
                     Results.BadRequest(new List<string> { "Не удаётся! Удалить страну, в которой есть игроки невозможно удалить" });
-                    return new List<string> { "Не удаётся! Удалить страну, в которой есть игроки невозможно удалить" };
                 }
-                dbConnection.RemoveRange(country);
+                dbConnection.Remove(country);
                 dbConnection.SaveChanges();
                 return new List<string> { "Страна успешно удалена" };
             }
             catch(Exception ex)
             {
               Results.BadRequest(new List<string> { "Ошибка в выполнении запроса"});
-               throw;  
+              throw;  
             }
         }
 
         public List<CountryDTO> GetAllCountries()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var country = dbConnection.Select(x => new CountryDTO()
+                {
+                    Id = x.Id,
+                    CountryName = x.CountryName,
+                    PlayerCount = x.PlayerCount
+                }
+                ).ToList();
+
+                return (List<CountryDTO>)country;
+            }
+            catch(Exception ex) 
+            { 
+                Results.BadRequest();
+                throw;
+            }
         }
 
         public List<CountryDTO> GetCountryById(long Id)
         {
-            throw new NotImplementedException();
+            var country = dbConnection.Countries.Select(x => new CountryDTO()
+            {
+                CountryName = x.CountryName,
+            }).Where(item => item.Id == Id).ToList();
+            return (List<CountryDTO>)country;
         }
     }
 }

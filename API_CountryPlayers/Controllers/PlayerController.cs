@@ -17,28 +17,36 @@ namespace API_CountryPlayers.Controllers
             _iplayer = iplayer;
         }
         [HttpPost("player/addPlayer")]
-        [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<List<string>>> Post(PlayerCreate playerCreate) => await Task.FromResult(_iplayer.AddPlayer(playerCreate));
+        public List<string> Post(PlayerCreate playerCreate)
+        {
+            return _iplayer.AddPlayer(playerCreate);
+        }
 
         [HttpDelete("player/deletePlayer")]
-        [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<List<string>>> Delete(long id) => await Task.FromResult(_iplayer.DeletePlayer(id));
+        public List<string> Delete(long id)
+        {
+            return _iplayer.DeletePlayer(id);
+        }
 
         [HttpGet("player/getPlayerById")]
-        [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<PlayerDTO>>> Get(long id) => await Task.FromResult(_iplayer.GetPlayerById(id));
-
+        public List<PlayerDTO> Get(long id)
+        {
+            return _iplayer.GetPlayerById(id);
+        }
         [HttpGet("player/getPlayer")]
-        [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<PlayerDTO>>> Get() => await Task.FromResult(_iplayer.GetAllPlayers());
-
+        public List<PlayerDTO> Get()
+        {
+            return _iplayer.GetAllPlayers();
+        }
         [HttpPatch("player/updatePlayer")]
-        [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<string>>> Patch(string login, PlayerUpdate playerUpdate) => await Task.FromResult(_iplayer.UpdatePlayer(login, playerUpdate));
+        public List<string> Patch(string login, PlayerUpdate playerUpdate)
+        {
+            return _iplayer.UpdatePlayer(login, playerUpdate);
+        }
     }
 }

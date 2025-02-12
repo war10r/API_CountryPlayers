@@ -26,18 +26,24 @@ namespace API_CountryPlayers.Controllers
         [HttpDelete("country/deleteCountry")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<List<string>>> Delete(long id) => await Task.FromResult(_icountry.DeleteCountry(id));
-
+        public  List<string> Delete(long id)
+        {
+            return _icountry.DeleteCountry(id);
+        }
         [HttpGet("country/getCountryById")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<CountryDTO>>> Get(long id) => await Task.FromResult(_icountry.GetCountryById(id));
-
+        public List<CountryDTO> Get(long id)
+        {
+         return _icountry.GetCountryById(id);
+        }
         [HttpGet("country/getCountry")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<CountryDTO>>> Get() => await Task.FromResult(_icountry.GetAllCountries());
-
+        public List<CountryDTO> Get()
+        {
+            return _icountry.GetAllCountries();
+        }
 
 
     }

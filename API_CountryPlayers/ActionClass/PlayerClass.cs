@@ -7,13 +7,15 @@ namespace API_CountryPlayers.ActionClass
 {
     public class PlayerClass : IPlayer
     {
-        private readonly PlayersContext dbConnection;
+        private PlayersContext dbConnection;
         public PlayerClass(PlayersContext context) => dbConnection = context;
         public List<string> AddPlayer(PlayerCreate player)
         {
-            if (player.Login.Any())
+            var creatingPlayer = dbConnection.Players.Where(item => item.Login ==  player.Login).ToList();
+            
+            if (creatingPlayer.Any())
             {
-                Results.BadRequest(new List<string> { "Пользователь с таким логином уже существует" });
+                return new List<string> { "Пользователь с таким логином уже существует" };
             }
 
             try 
@@ -81,21 +83,21 @@ try
                 throw;
             }
         }
-        public List<PlayerDTO> GetPlayerById(long Id)
+        public List<PlayerDTO> GetPlayerById(long id)
         {
             try
             {
-                var player = dbConnection.Players.Where(u => u.Id == Id).Select(x => new PlayerDTO
+                var player = dbConnection.Players.Select(x => new PlayerDTO
                 {
                     Name = x.Name,
                     Login = x.Login,
+                    Password = x.Password,
                     Id = x.Id,
                     Age = x.Age,
                     CountryId = x.CountryId,
                 }
-                ).ToList();
-                dbConnection.Add(player);
-                dbConnection.SaveChanges();
+                ).Where(u => u.Id == id).ToList();
+
                 return (List<PlayerDTO>)player;
             }
             catch

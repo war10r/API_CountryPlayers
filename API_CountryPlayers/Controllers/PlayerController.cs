@@ -36,7 +36,7 @@ namespace API_CountryPlayers.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<PlayerDTO>>> Get() => await Task.FromResult(_iplayer.GetAllPlayers());
 
-        [HttpGet("player/updatePlayer")]
+        [HttpPatch("player/updatePlayer")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<string>>> Patch(string login, PlayerUpdate playerUpdate) => await Task.FromResult(_iplayer.UpdatePlayer(login, playerUpdate));

@@ -18,7 +18,10 @@ namespace API_CountryPlayers.Controllers
         [HttpPost("country/addCountry")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<List<string>>> Post (CountryCreate countryCreate) => await Task.FromResult(_icountry.AddCountry(countryCreate));
+        public List<string> Post(CountryCreate countryCreate)
+        {
+            return _icountry.AddCountry(countryCreate);
+        }
 
         [HttpDelete("country/deleteCountry")]
         [Produces("application/json")]
@@ -34,6 +37,8 @@ namespace API_CountryPlayers.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<CountryDTO>>> Get() => await Task.FromResult(_icountry.GetAllCountries());
+
+
 
     }
 }

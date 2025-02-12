@@ -11,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<ICountry, CountryClass>();
+builder.Services.AddTransient<IPlayer, PlayerClass>();
 
 var connectionString = builder.Configuration.GetConnectionString("ConnectDb");
 builder.Services.AddDbContext<PlayersContext>(options=>options.UseSqlServer(connectionString));

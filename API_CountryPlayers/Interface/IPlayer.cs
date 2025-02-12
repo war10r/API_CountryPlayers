@@ -7,7 +7,7 @@ namespace API_CountryPlayers.Interface
     {
         public List<PlayerDTO> GetAllPlayers();
 
-        public List<PlayerDTO> GetPlayerById(long Id);
+        public List<PlayerDTO> GetPlayerById(long id);
 
         public List<string> AddPlayer(PlayerCreate player);
 

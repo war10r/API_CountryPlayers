@@ -10,7 +10,10 @@ namespace API_CountryPlayers.ActionClass
     public class CountryClass : ICountry
     {
         private PlayersContext dbConnection;
-        public CountryClass(PlayersContext context) => dbConnection = context;
+        public CountryClass(PlayersContext context)
+        {
+            dbConnection = context;
+        }
 
         public List<string> AddCountry(CountryCreate country)
         {
